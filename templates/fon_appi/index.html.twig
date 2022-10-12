@@ -1,0 +1,77 @@
+
+         {% extends 'base.html.twig' %}
+           {% block title %}Fonctionnalité{% endblock %}
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+              <link rel="stylesheet" href="{{asset('styles/app.scss')}}">
+            
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    
+
+
+{% block body %}
+<style>
+h3{
+  background-color:green;
+}
+       </style>
+<section class="col col-lg-10 mx-auto">
+<div class="c">
+<div class="barre_recherche">
+<div class="btn_fon">
+<section class="col col-lg-10 mx-auto">
+<div class="c">
+    <form id="add">
+    <div class="col">
+    <div class"input-group">
+    <div class="creer_un compte_partenaire">
+     <input type="text" class="form-control form-control-lg" placeholder="Veuillez saisir un partenaire"autocomplete="off">
+     <br>
+    <button type="submit" class="btn btn-primary"id="ajouterpartenaire">Ajouter un partenaire</button>
+    <button type="button" class="btn btn-danger"id="desactiverpartenaire">Désactiver un partenaire</button>
+    <h3>Créer un compte Partenaire</h3>
+     <label for="inputEmail" class="form-label">Adresse email</label>
+     <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+    <label class="form-label" for="inputMdp">Mot de passe</label>
+     <input id="inputMdp" class="form-control" type="password"/>
+       <br>
+         <button type="button" class="btn btn-success mb-2"id="b">Enregistrer</button>
+<div class="adds">
+    <form id="add">
+    <div class="col">
+    <div class"input-group">
+       <h3>Gérer les structures</h3>
+     <input type="text" class="form-control form-control-lg" placeholder="Veuillez l'adresse postale de la structure"autocomplete="off">
+     <br>
+      <input type="text" class="form-control form-control-lg" placeholder="Veuillez saisir une structure"autocomplete="off">
+           <br>
+        <button type="submit" class="btn btn-primary"id="ajouterpartenaire">Ajouter une structure</button>
+
+      <button type="button" class="btn btn-danger"id="desactiverstructure">Désactiver une structure</button>
+<div class="creer_un compte_structure">
+       <h3>Créer un compte pour une structure</h3>
+     <label for="inputEmail" class="form-label" placeholder="Veuillez l'adresse email du gérant"autocomplete="off">Adresse email du gérant</label>
+     <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+    <label class="form-label" for="inputMdp">Mot de passe</label>
+
+     <input id="inputMdp" class="form-control" type="password"/>
+         <br>
+         <button type="button" class="btn btn-success mb-2"id="b">Enregistrer</button>
+         </div>
+
+             
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+{% endblock %}
+
+

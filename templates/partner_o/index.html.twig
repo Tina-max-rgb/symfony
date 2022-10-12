@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PartnerO index{% endblock %}
+    
+{% block body %}
+    <h1>Liste</h1>
+   <div class="sidebar-search">
+      <div class="input-group custom-search-form">
+          <input type="text" id="search" class="form-control" placeholder="Rechercher">
+      </div>
+      <!-- /input-group -->
+  </div>
+  <ul class="nav" id="side-menu">
+      <li>
+          <a href="#" class ="btn btn-primary"> Rechercher </a>
+          <ul class="nav nav-second-level" id="entitiesNav">
+           <a href="{{ path('partenaires_add') }}">Create new</a>
+
+           
+          </ul>
+      </li>
+  </ul>
+
+<div style="margin-top:20px">
+      <div id="result-search"></div>
+      
+</div>
+<div class="c">
+    <form id="add">
+    <div class="col">
+    <div class"input-group">
+    <div class="creer_un compte_partenaire">
+     <br>
+    <button type="submit" class="btn btn-primary"id="ajouterpartenaire"><a href="{{ path('partenaires_add') }}"></a>Ajouter un partenaire</button>
+    <h3>Créer un compte Partenaire</h3>
+     <label for="inputEmail" class="form-label">Adresse email</label>
+     <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+    <label class="form-label" for="inputMdp">Mot de passe</label>
+     <input id="inputMdp" class="form-control" type="password"/>
+       <br>
+         <button type="button" class="btn btn-success mb-2"id="b">Enregistrer</button>
+<div class="adds">
+    <form id="add">
+    <div class="col">
+    <div class"input-group">
+       <h3>Gérer les structures</h3>
+     <input type="text" class="form-control form-control-lg" placeholder="Veuillez l'adresse postale de la structure"autocomplete="off">
+     <br>
+      <input type="text" class="form-control form-control-lg" placeholder="Veuillez saisir une structure"autocomplete="off">
+           <br>
+        <button type="submit" class="btn btn-primary"id="ajouterpartenaire">Ajouter une structure</button>
+
+      <button type="button" class="btn btn-danger"id="desactiverstructure">Désactiver une structure</button>
+<div class="creer_un compte_structure">
+       <h3>Créer un compte pour une structure</h3>
+     <label for="inputEmail" class="form-label" placeholder="Veuillez l'adresse email du gérant"autocomplete="off">Adresse email du gérant</label>
+     <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+    <label class="form-label" for="inputMdp">Mot de passe</label>
+
+     <input id="inputMdp" class="form-control" type="password"/>
+         <br>
+         <button type="button" class="btn btn-success mb-2"id="b">Enregistrer</button>
+         </div>
+
+             
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>User_id</th>
+                <th>Is_active</th>
+                <th>Id_permission</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for partner_o in partner_os %}
+            <tr>
+                <td>{{ partner_o.id }}</td>
+                <td>{{ partner_o.nom }}</td>
+                <td>{{ partner_o.email }}</td>
+                <td>{{ partner_o.userId }}</td>
+                <td>{{ partner_o.isActive ? 'Yes' : 'No' }}</td>
+                <td>{{ partner_o.idPermission }}</td>
+                <td>
+                    <a href="{{ path('partenaires_show', {'id': partner_o.id}) }}">show</a>
+                    <a href="{{ path('partenaires_edit', {'id': partner_o.id}) }}" role="button" class="btn btn-info">edit</a>
+                        <button type="button" class="btn btn-danger"id="desactiverpartenaire">Désactiver un partenaire</button>
+
+                     <a href="{{ path('partenaires_remove', {'id': partner_o.id}) }}" role="button" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Aucun résultat</td>
+            </tr> 
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+   
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var searchRequest = null;
+        $("#search-partner").keyup(function() {
+            var minlength = 3;
+            var that = this;
+            var value = $(this).val();
+            var entitySelector = $("#entitiesNav").html('');
+            if (value.length >= minlength ) {
+                if (searchRequest != null)
+                    searchRequest.abort();
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('rechercher') }}",
+                    data: {
+                        'q' : value
+                    },
+                    dataType: "text",
+                    success: function(msg){
+                        //we need to check if the value is the same
+                        if (value==$(that).val()) {
+                            var result = JSON.parse(msg);
+                            $.each(result, function(key, arr) {
+                                $.each(arr, function(id, value) {
+                                    if (key == 'entities') {
+                                        if (id != 'error') {
+                                            entitySelector.append('<li><a href="/daten/'+id+'">'+value+'</a></li>');
+                                        } else {
+                                            entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                     }
+                });
+            }
+        });
+    });
+</script>
+ to jo
+  
+
+   
+{% endblock %}

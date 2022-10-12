@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New PartnerO{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un nouveau partenaire</h1>
+
+    {{ include('partner_o/_form.html.twig') }}
+
+    <a href="{{ path('app_partner_o_index') }}">back to list</a>
+{% endblock %}

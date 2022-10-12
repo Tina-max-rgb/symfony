@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Structure index{% endblock %}
+
+{% block body %}
+    <h1>Liste</h1>
+    <div class="container">
+       <div class=" card-success margintop ">
+  <div class="bg-success">Rechercher des Structures</div>
+  <div class="card-block">
+   
+  </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Adresse</th>
+                <th>Email</th>
+                <th>User_id</th>
+                <th>Partenaire_id</th>
+                <th>Is_active</th>
+                <th>Id_permission</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for structure in structures %}
+            <tr>
+                <td>{{ structure.id }}</td>
+                <td>{{ structure.adresse }}</td> 
+                <td>{{ structure.email }}</td>
+                <td>{{ structure.userId }}</td>
+                <td>{{ structure.partenaireId }}</td>
+                <td>{{ structure.isActive ? 'Yes' : 'No' }}</td>
+                <td>{{ structure.idPermission }}</td>
+                <td>
+                    <a href="{{ path('structures_show', {'id': structure.id}) }}">show</a>
+                    <a href="{{ path('structures_edit', {'id': structure.id}) }}">edit</a>
+                      <a href="{{ path('structures_add') }}">Create new</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+  
+{% endblock %}
