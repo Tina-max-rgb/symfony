@@ -39,28 +39,34 @@ class StructureRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Structure[] Returns an array of Structure objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function searchByName(string $name): array
+    {
+        $entityManager = $this->getEntityManager();
 
-//    public function findOneBySomeField($value): ?Structure
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $query = $entityManager->createQuery(
+            "SELECT s
+            FROM App\Entity\Structure s
+            LEFT JOIN App\Entity\User u WITH s.user = u.id
+            WHERE u.nom LIKE :nom
+            ORDER BY u.nom ASC"
+        )->setParameter('nom', '%'.$name.'%');
+        
+        return $query->getResult();
+    }
+
+    public function filterByStatus(string $status): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM App\Entity\Structure s
+            LEFT JOIN App\Entity\User u WITH s.user = u.id
+            WHERE u.is_active = :status
+            ORDER BY u.nom ASC'
+        )->setParameter('status', $status);
+
+        return $query->getResult();
+    }
+
 }

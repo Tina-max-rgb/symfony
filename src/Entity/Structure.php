@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\StructureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StructureRepository::class)]
 class Structure
@@ -11,100 +14,92 @@ class Structure
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;    
 
-    #[ORM\Column(length: 255)]
-    private ?string $adresse = null;
+    #[ORM\OneToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable:false)]
+    private User $user;
 
-    #[ORM\Column(length: 255)]
-    private ?string $email = null;
+    #[ORM\ManyToOne(targetEntity: Partner::class, inversedBy: 'structure')]
+    #[ORM\JoinColumn(name: 'partner_id', referencedColumnName: 'id', nullable:false)]
+    private $partner;
 
-    #[ORM\Column]
-    private ?int $user_id = null;
+    #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'structure', fetch:'EAGER')]
+    private Collection $permission;
 
-    #[ORM\Column]
-    private ?int $partenaire_id = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $is_active = null;
-
-    #[ORM\Column]
-    private ?int $id_permission = null;
+    public function __construct()
+    {
+        $this->permission = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAdresse(): ?string
+    /**
+     * Set user.
+     *
+     * @param User $user
+     *
+     * @return Partner
+     */
+    public function setUser(User $user)
     {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): self
-    {
-        $this->adresse = $adresse;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    /**
+     * Get user.
+     *
+     * @return User
+     */
+    public function getUser(): User
     {
-        return $this->email;
+        return $this->user;
     }
 
-    public function setEmail(string $email): self
+    public function getPartner(): ?Partner
     {
-        $this->email = $email;
+        return $this->partner;
+    }
+
+    public function setPartner(?Partner $partner): self
+    {
+        $this->partner = $partner;
 
         return $this;
     }
 
-    public function getUserId(): ?int
+    /**
+     * @return Collection<int, Permission>
+    */
+    public function getPermission(): Collection
     {
-        return $this->user_id;
+        return $this->permission;
     }
 
-    public function setUserId(int $user_id): self
+    public function addPermission(Permission $permission): self
     {
-        $this->user_id = $user_id;
+        if (!$this->permission->contains($permission)) {
+            $this->permission->add($permission);
+        }
 
         return $this;
     }
 
-    public function getPartenaireId(): ?int
+    public function removePermission(Permission $permission): self
     {
-        return $this->partenaire_id;
-    }
-
-    public function setPartenaireId(int $partenaire_id): self
-    {
-        $this->partenaire_id = $partenaire_id;
+        $this->permission->removeElement($permission);
 
         return $this;
     }
 
-    public function isIsActive(): ?bool
+    public function clearPermissions()
     {
-        return $this->is_active;
-    }
-
-    public function setIsActive(?bool $is_active): self
-    {
-        $this->is_active = $is_active;
-
-        return $this;
-    }
-
-    public function getIdPermission(): ?int
-    {
-        return $this->id_permission;
-    }
-
-    public function setIdPermission(int $id_permission): self
-    {
-        $this->id_permission = $id_permission;
-
+        $this->permission->clear();
         return $this;
     }
 }

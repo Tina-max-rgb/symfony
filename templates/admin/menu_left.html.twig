@@ -1,0 +1,24 @@
+{% if is_granted('ROLE_ADMIN') %}
+   <div class="collapse navbar-collapse mr-auto" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ path('admin_index') }}">Partenaires</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_structure') }}">Structures</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('admin_permissions') }}">Permissions</a>
+      </li>
+    </ul>
+</div>
+{% elseif is_granted('ROLE_PARTNER') %}
+<div class="collapse navbar-collapse mr-auto" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ path('partenaire_index') }}">Mes strcutures</a>
+      </li>
+    </ul>
+</div>
+
+{% endif %}

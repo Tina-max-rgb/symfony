@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administrateur Orange Blue - Permissions{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="row justify-content-md-center">    
+    <div class="col-10">
+      <h2>Liste des Permissions pour la structure [{{structure.user.nom}}]</h2>
+      <table class="table align-middle mb-0 bg-white">
+      <thead class="bg-light">
+        <tr>
+          <th>Titre de la permission</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% if structure.permission is not empty %}
+        {% for permission in structure.permission %}
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">              
+                <div class="ms-3">
+                  <p class="fw-bold mb-1">{{permission.nom}}</p>
+                </div>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="2"><p class="text-center">Pas de liste des permissions</td>
+          </tr>
+          {% endif %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

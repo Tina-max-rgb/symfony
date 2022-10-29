@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orange Blue - Gestion des permissions Partenaire{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-10">
+                <h2>Gérer les permissions pour [{{partner.user.nom}}]</h2>
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'form-validate'}}) }}
+                    <div class="my-custom-class-for-errors">
+                        {{ form_errors(form) }}
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.permission) }}
+                        </div>
+                    </div>
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

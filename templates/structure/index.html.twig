@@ -1,51 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Structure index{% endblock %}
-
+{% block title %}Orange Blue - Partenaire{% endblock %}
 {% block body %}
-    <h1>Liste</h1>
-    <div class="container">
-       <div class=" card-success margintop ">
-  <div class="bg-success">Rechercher des Structures</div>
-  <div class="card-block">
-   
-  </div>
-    <table class="table">
-        <thead>
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-10">
+      <h2>Mes informations</h2>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0 bg-white">
+          <thead class="bg-light">
             <tr>
-                <th>Id</th>
-                <th>Adresse</th>
-                <th>Email</th>
-                <th>User_id</th>
-                <th>Partenaire_id</th>
-                <th>Is_active</th>
-                <th>Id_permission</th>
-                <th>actions</th>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Adresse</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for structure in structures %}
-            <tr>
-                <td>{{ structure.id }}</td>
-                <td>{{ structure.adresse }}</td> 
-                <td>{{ structure.email }}</td>
-                <td>{{ structure.userId }}</td>
-                <td>{{ structure.partenaireId }}</td>
-                <td>{{ structure.isActive ? 'Yes' : 'No' }}</td>
-                <td>{{ structure.idPermission }}</td>
+          </thead>
+          <tbody>
+              <tr>
                 <td>
-                    <a href="{{ path('structures_show', {'id': structure.id}) }}">show</a>
-                    <a href="{{ path('structures_edit', {'id': structure.id}) }}">edit</a>
-                      <a href="{{ path('structures_add') }}">Create new</a>
+                  <div class="d-flex align-items-center">              
+                    <div class="ms-3">
+                      <p class="fw-bold mb-1">{{structure.user.nom}}</p>
+                    </div>
+                  </div>
                 </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
+                <td>
+                  <p class="text-muted mb-0">{{structure.user.email}}</p>
+                </td>
+                <td>
+                  <p class="text-muted mb-0">{{structure.user.adresse}}</p>
+                </td>
+              </tr>
         </tbody>
-    </table>
-
-  
+      </table>
+      <h2 class="mt-5">Mes permissions</h2>
+      <table class="table align-middle mb-0 bg-white">
+          <thead class="bg-light">
+            <tr>
+              <th>Titre</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% if structure.permission is not empty %}
+            {% for permission in structure.permission %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">              
+                    <div class="ms-3">
+                      <p class="fw-bold mb-1">{{permission.nom}}</p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                <td colspan="4"><p class="text-center">Pas de liste des permissions</td>
+              </tr>
+              {% endif %}
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

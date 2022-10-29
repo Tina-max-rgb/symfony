@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
          <meta name="viewport" content="width=device-width, initial-scale=1">
         
-           <title>{% block title %}Welcome!{% endblock %}</title>
+           <title>{% block title %}Orange Bleu!{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
               
@@ -17,28 +17,47 @@
     </head>
     
     <body>
-    <header class="p-3 text-bg-dark">
-    <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
-        </a>
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="{{ path('fonc') }}" class="nav-link px-2 text-secondary">Orange Blue</a></li>
-          <li><a href="{{ path('acceuil') }}" class="nav-link px-2 text-white">Acceuil</a></li>
-          <li><a href="{{ path('partenaires') }}" class="nav-link px-2 text-white">Partenaires</a></li>
-          <li><a href= "{{ path('structures') }}"class="nav-link px-2 text-white">Structures</a></li>
-          <li><a href="{{ path('permission') }}"class="nav-link px-2 text-white">Permissions</a></li>
-
-        </ul>
-
-                 
-
-      </div>
-    </div>
-  </header>
-
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-5">
+        <div class="container">
+          <a class="navbar-brand" href="{{ path('app_login') }}">Orange Blue</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          {{ include('admin/menu_left.html.twig') }}
+          <div class="my-2 my-lg-0">
+            <ul class="nav justify-content-end">
+            {% if is_granted('ROLE_USER') %}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ path('app_logout') }}">Déconnecter</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ path('app_login') }}">Se connecter</a>
+              </li>
+            {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    
         {% block body %}{% endblock %}
+        <!-- Modal -->
+        <div class="modal fade" id="confirmation-popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Êtes vous sûr de valider cette action?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <a href="" class="btn btn-primary confirm-action">Valider</a>
+              </div>
+            </div>
+          </div>
+        </div>
     </body>
 </html>

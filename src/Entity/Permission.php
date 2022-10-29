@@ -6,6 +6,7 @@ use App\Repository\PermissionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PermissionRepository::class)]
 class Permission
@@ -16,23 +17,19 @@ class Permission
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
-    #[ORM\Column]
-    private ?int $partenaire_id = null;
+    #[ORM\ManyToMany(targetEntity: Partner::class, mappedBy: 'permission')]
+    private Collection $partner;
 
-    #[ORM\Column]
-    private ?int $structure_id = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $is_active = null;
-
-    #[ORM\ManyToMany(targetEntity: PartnerO::class, mappedBy: 'Permission')]
-    private Collection $partnerOs;
+    #[ORM\ManyToMany(targetEntity: Structure::class, mappedBy: 'permission')]
+    private Collection $structure;
 
     public function __construct()
     {
-        $this->partnerOs = new ArrayCollection();
+        $this->partner = new ArrayCollection();
+        $this->structure = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,67 +48,63 @@ class Permission
 
         return $this;
     }
-
-    public function getPartenaireId(): ?int
+    
+    /**
+     * @return Collection<int, Partner>
+     */
+    public function getPartner(): Collection
     {
-        return $this->partenaire_id;
+        return $this->partner;
     }
 
-    public function setPartenaireId(int $partenaire_id): self
+    public function addPartner(Partner $partner): self
     {
-        $this->partenaire_id = $partenaire_id;
+        if (!$this->partner->contains($partner)) {
+            $this->partner->add($partner);
+            $partner->addPermission($this);
+        }
 
         return $this;
     }
 
-    public function getStructureId(): ?int
+    public function removePartner(Partner $partner): self
     {
-        return $this->structure_id;
-    }
-
-    public function setStructureId(int $structure_id): self
-    {
-        $this->structure_id = $structure_id;
-
-        return $this;
-    }
-
-    public function isIsActive(): ?bool
-    {
-        return $this->is_active;
-    }
-
-    public function setIsActive(?bool $is_active): self
-    {
-        $this->is_active = $is_active;
+        if ($this->partner->removeElement($partner)) {
+            $partner->removePermission($this);
+        }
 
         return $this;
     }
 
     /**
-     * @return Collection<int, PartnerO>
+     * @return Collection<int, Structure>
      */
-    public function getPartnerOs(): Collection
+    public function getStructure(): Collection
     {
-        return $this->partnerOs;
+        return $this->structure;
     }
 
-    public function addPartnerO(PartnerO $partnerO): self
+    public function addStructure(Structure $structure): self
     {
-        if (!$this->partnerOs->contains($partnerO)) {
-            $this->partnerOs->add($partnerO);
-            $partnerO->addPermission($this);
+        if (!$this->structure->contains($structure)) {
+            $this->structure->add($structure);
+            $structure->addPermission($this);
         }
 
         return $this;
     }
 
-    public function removePartnerO(PartnerO $partnerO): self
+    public function removeStructure(Structure $structure): self
     {
-        if ($this->partnerOs->removeElement($partnerO)) {
-            $partnerO->removePermission($this);
+        if ($this->structure->removeElement($structure)) {
+            $structure->removePermission($this);
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->nom;
     }
 }

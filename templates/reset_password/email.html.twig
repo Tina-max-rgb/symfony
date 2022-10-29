@@ -1,0 +1,45 @@
+{% apply inky_to_html|inline_css(source('@styles/foundation-template.css'), source('@styles/email.css')) %}
+
+<spacer size="16"></spacer>
+
+<container class="header">
+  <row class="collapse">
+    <columns>
+      <h1>Orange Blue</h1>
+    </columns>
+  </row>
+</container>
+
+<container class="body-drip">
+
+  <spacer size="16"></spacer>
+  
+  <row>
+    <columns>
+      <h4 class="text-center">Premiére connexion sur notre plateforme Orange Blue</h4>
+    </columns>
+  </row>
+
+  <hr/>
+
+  <row>
+    <columns>
+        <p class="text-center">Bonjour, votre compte {{type}} vient d'être créer!</p>
+        <p class="text-center">Veuillez utilisez votre addresse email pour se connecter: {{ emailAdresse }}</p>
+        <p class="text-center">Pour réinitialiser votre mot de passe, veuillez visiter le lien suivant.</p>
+        <center>
+            <button href="{{ url('app_reset_password', {token: resetToken.token}) }}" class="success">Réinitialiser mot de passe</button>
+        </center>
+    </columns>
+  </row>
+
+  <row class="collapsed footer">
+    <columns>
+      <spacer size="16"></spacer>
+      <p class="text-center">@copywrite Orange Blue<br/>
+      
+    </columns>
+  </row>
+
+</container>
+{% endapply %}

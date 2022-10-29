@@ -1,0 +1,103 @@
+{% if type == 'partner'%}
+    {% if data is not empty %}
+          {% for partner in data %}
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">              
+                  <div class="ms-3">
+                    <p class="fw-bold mb-1">{{partner.user.nom}}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-muted mb-0">{{partner.user.email}}</p>
+              </td>
+              <td>
+                <p class="text-muted mb-0">{{partner.user.adresse}}</p>
+              </td>
+              <td>
+                {% if partner.user.isActive %}
+                  <span class="badge badge-active rounded-pill d-inline">Active</span>
+                {% else %}
+                  <span class="badge badge-disable rounded-pill d-inline">Désactiver</span>
+                {% endif %}
+              </td>
+              <td>
+                <a href="{{ path('admin_show_partner_permissions', {'id': partner.id}) }}" class="btn btn-link btn-sm btn-rounded permission-btn">
+                  Gérer
+                </a>
+              </td>
+              <td>
+              <a href="{{ path('admin_edit_partner', {'id': partner.user.id}) }}" class="btn btn-link btn-sm btn-rounded edit-btn">
+                  Edit
+                </a>
+              {% if partner.user.isActive %}
+                <a href="{{ path('admin_disable_partner', {'id': partner.id}) }}" class="btn btn-link has-confirmation btn-sm btn-rounded disable-btn">
+                  Désactiver
+                </a>
+                {% else %}
+                <a href="{{ path('admin_enable_partner', {'id': partner.id}) }}" class="btn btn-link has-confirmation btn-sm btn-rounded enable-btn">
+                  Activer
+                </a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5"><p class="text-center">Pas de liste des partenaires</td>
+            </tr>
+            {% endif %}
+{% else %}
+{% if data is not empty %}
+        {% for structure in data %}
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">              
+                <div class="ms-3">
+                  <p class="fw-bold mb-1">{{structure.user.nom}}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-muted mb-0">{{structure.user.email}}</p>
+            </td>
+            <td>
+              <p class="text-muted mb-0"><a href="">{{structure.partner}}</a></p>
+            </td>
+            <td>
+              {% if structure.user.isActive %}
+                <span class="badge badge-active rounded-pill d-inline">Active</span>
+              {% else %}
+                <span class="badge badge-disable rounded-pill d-inline">Désactiver</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{{ path('admin_show_structure_permissions', {'id': structure.id}) }}" class="btn btn-link btn-sm btn-rounded permission-btn">
+                Gérer
+              </a>
+            </td>
+            <td>
+              <a href="{{ path('admin_edit_structure', {'id': structure.user.id}) }}" class="btn btn-link btn-sm btn-rounded edit-btn">
+                Edit
+              </a>
+              {% if structure.partner.user.isActive %}
+                {% if structure.user.isActive %}
+                <a href="{{ path('admin_disable_structure', {'id': structure.id}) }}" class="btn btn-link btn-sm has-confirmation btn-rounded disable-btn">
+                  Désactiver
+                </a>
+                {% else %}
+                <a href="{{ path('admin_enable_structure', {'id': structure.id}) }}" class="btn btn-link btn-sm has-confirmation btn-rounded enable-btn">
+                  Activer
+                </a>
+                {% endif %}
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="6"><p class="text-center">Pas de liste des structures</td>
+          </tr>
+          {% endif %}
+{% endif %}

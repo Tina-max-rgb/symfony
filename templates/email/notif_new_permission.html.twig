@@ -1,0 +1,43 @@
+{% apply inky_to_html|inline_css(source('@styles/foundation-template.css')) %}
+
+<spacer size="16"></spacer>
+
+<container class="header">
+  <row class="collapse">
+    <columns>
+      <h1>Orange Blue</h1>
+    </columns>
+  </row>
+</container>
+
+<container class="body-drip">
+
+  <spacer size="16"></spacer>
+
+  <row>
+    <columns>
+      <h4 class="text-center">Changement de premisions</h4>
+    </columns>
+  </row>
+
+  <hr/>
+
+  <row>
+    <columns>
+      <p class="text-center">Bonjour, {{ description }} </p>
+      <center>
+        <button href="{{ url('app_login') }}" class="success">Voir les changements</button>
+      </center>
+    </columns>
+  </row>
+
+  <row class="collapsed footer">
+    <columns>
+      <spacer size="16"></spacer>
+      <p class="text-center">@copywrite Orange Blue<br/>
+      
+    </columns>
+  </row>
+
+</container>
+{% endapply %}

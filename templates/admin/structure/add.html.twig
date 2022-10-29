@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orange Blue - Ajout Structure{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-10">
+                <h2>Ajout/Modification Structure</h2>
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                    <div class="my-custom-class-for-errors">
+                        {{ form_errors(form) }}
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.nom) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.email) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.password) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(form.adresse) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(form.partner) }}
+                        </div>
+                    </div>
+                <button type="submit">Mettre à jour</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

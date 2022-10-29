@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administrateur Orange Blue - Structure{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-10">
+      <h2>Liste des Structures</h2>
+      <div class="row align-items-center">
+        <div class="col-sm-12 col-md-6">  
+        <div class="row">
+          <div class="dataTables_length col" >
+            <input type="text" id="searchText" placeholder="Recherche par nom" class="form-control">
+            <input type="hidden" id="search_type" value="structure" >
+          </div>
+          <div class="col">
+          <select name="status" id="status_filter" class="form-select">
+            <option value="-1" selected>Filtre</option>
+            <option value="1">Status Activer</option>
+            <option value="0">Status Désactiver</option>
+          </select>
+          </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="p-3 d-flex justify-content-end">
+              <a href="{{ path('admin_add_structure') }}" class="btn btn-outline-primary">Ajout Structure</a>
+          </div>
+        </div>
+      </div>
+      <table class="table align-middle mb-0 bg-white table-hover" id="has-search">
+      <thead class="bg-light">
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Partenaire</th>
+          <th>Status</th>
+          <th>Voir permissions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% if structures is not empty %}
+        {% for structure in structures %}
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">              
+                <div class="ms-3">
+                  <p class="fw-bold mb-1">{{structure.user.nom}}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-muted mb-0">{{structure.user.email}}</p>
+            </td>
+            <td>
+              <p class="text-muted mb-0"><a href="">{{structure.partner}}</a></p>
+            </td>
+            <td>
+              {% if structure.user.isActive %}
+                <span class="badge badge-active rounded-pill d-inline">Active</span>
+              {% else %}
+                <span class="badge badge-disable rounded-pill d-inline">Désactiver</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{{ path('admin_show_structure_permissions', {'id': structure.id}) }}" class="btn btn-link btn-sm btn-rounded permission-btn">
+                Gérer
+              </a>
+            </td>
+            <td>
+              <a href="{{ path('admin_edit_structure', {'id': structure.user.id}) }}" class="btn btn-link btn-sm btn-rounded edit-btn">
+                Edit
+              </a>
+              {% if structure.partner.user.isActive %}
+                {% if structure.user.isActive %}
+                <a href="{{ path('admin_disable_structure', {'id': structure.id}) }}" class="btn btn-link btn-sm has-confirmation btn-rounded disable-btn">
+                  Désactiver
+                </a>
+                {% else %}
+                <a href="{{ path('admin_enable_structure', {'id': structure.id}) }}" class="btn btn-link btn-sm has-confirmation btn-rounded enable-btn">
+                  Activer
+                </a>
+                {% endif %}
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="6"><p class="text-center">Pas de liste des structures</td>
+          </tr>
+          {% endif %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

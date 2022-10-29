@@ -27,13 +27,13 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
+        $email = $request->request->get('email');
 
         $request->getSession()->set(Security::LAST_USERNAME, $email);
 
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($request->request->get('password', '')),
+            new PasswordCredentials($request->request->get('password')),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
             ]
@@ -46,9 +46,17 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-         return new RedirectResponse($this->urlGenerator->generate('partenaires'));
-       // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        $roles = $token->getUser()->getRoles();
+
+        if (in_array('ROLE_ADMIN',$roles, true)) {
+            $redirection = $this->urlGenerator->generate('admin_index');
+        } elseif (in_array('ROLE_PARTNER',$roles, true)) {
+            $redirection = $this->urlGenerator->generate('partenaire_index');
+        }else {
+            $redirection = $this->urlGenerator->generate('structure_index');
+        }
+
+        return new RedirectResponse($redirection);
     }
 
     protected function getLoginUrl(Request $request): string

@@ -1,0 +1,44 @@
+{% apply inky_to_html|inline_css(source('@styles/foundation-template.css'), source('@styles/email.css')) %}
+
+<spacer size="16"></spacer>
+
+<container class="header">
+  <row class="collapse">
+    <columns>
+      <h1>Orange Blue</h1>
+    </columns>
+  </row>
+</container>
+
+<container class="body-drip">
+
+  <spacer size="16"></spacer>
+  
+  <row>
+    <columns>
+      <h4 class="text-center">Nouvelle structure vient d'être ajouter!</h4>
+    </columns>
+  </row>
+
+  <hr/>
+
+  <row>
+    <columns>
+        <p class="text-center">Bonjour, une nouvelle structure, <strong>'{{structure}}'</strong>, vient d'être associer à votre compte !</p>
+        <p class="text-center">Pour consulter les strucures, veuillez vous connecter.</p>
+        <center>
+            <button href="{{ url('partenaire_index') }}" class="success">Me connecter</button>
+        </center>
+    </columns>
+  </row>
+
+  <row class="collapsed footer">
+    <columns>
+      <spacer size="16"></spacer>
+      <p class="text-center">@copywrite Orange Blue<br/>
+      
+    </columns>
+  </row>
+
+</container>
+{% endapply %}
